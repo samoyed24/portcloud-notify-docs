@@ -77,6 +77,14 @@ CI（GitHub Actions）在 `main` / `dev` 推送时：
 
 文档容器只提供 `/docs/`，由 service 的 `frontend` nginx 反代。service 的 `docker-compose.yml` 通过 `DOCS_IMAGE_TAG`（默认 `latest`）拉取镜像；service 部署时一起更新文档。
 
+### GHCR 跨仓库访问
+
+文档包由本仓库发布，service 仓库的 `GITHUB_TOKEN` 默认读不到另一个仓库的私有包。任选一种方式：
+
+1. 把 `portcloud-notify-docs` 包设为 **public**（文档站内容本来就是公开的）；
+2. 在包的 **Manage Actions access** 中给 `samoyed24/portcloud-notify` 授予 **Read**；
+3. 在 service 仓库配置 `DOCS_GHCR_TOKEN`（PAT，`read:packages`）和 `DOCS_GHCR_USER`。
+
 只更新文档时，可以在服务器上单独拉取并重启文档容器：
 
 ```bash
