@@ -1,0 +1,24 @@
+# ---- Node ----
+node_modules/
+.pnpm-store/
+
+# ---- VitePress ----
+.vitepress/cache/
+.vitepress/dist/
+
+# ---- 生成产物：由 scripts/generate-api-docs.mjs 从 OpenAPI 快照生成 ----
+api/
+en/api/
+public/openapi.json
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---- 运行时产物 ----
+*.log
+playwright-report/
+test-results/

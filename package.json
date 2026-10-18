@@ -1,0 +1,19 @@
+{
+  "name": "portcloud-notify-docs",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm docs:generate && vitepress dev . --host 127.0.0.1 --port 5174",
+    "build": "pnpm docs:generate && vitepress build .",
+    "preview": "vitepress preview . --host 127.0.0.1 --port 4174",
+    "docs:generate": "node scripts/generate-api-docs.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "vitepress": "1.6.4"
+  },
+  "packageManager": "pnpm@10.32.1"
+}

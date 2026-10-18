@@ -1,0 +1,5 @@
+# pnpm 10 起，onlyBuiltDependencies 应放在这里（放在 package.json 的 pnpm 字段
+# 在 --frozen-lockfile 下不生效，会导致 ERR_PNPM_IGNORED_BUILDS）。
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild

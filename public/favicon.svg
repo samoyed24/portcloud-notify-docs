@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" role="img" aria-label="Portcloud Notify">
+  <title>Portcloud Notify</title>
+  <desc>Portcloud Notify 图标。实心渐变信封 + 通知角标。</desc>
+  <defs>
+    <linearGradient id="pcGrad" x1="3" y1="3" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563EB" />
+      <stop offset="1" stop-color="#0EA5E9" />
+    </linearGradient>
+    <!-- 与 logo.svg 同一套画法。favicon 不依赖任何继承色，保证在任意浏览器主题下表现一致。 -->
+    <mask id="pcKnockout">
+      <rect width="24" height="24" fill="#fff" />
+      <circle cx="20.2" cy="4.2" r="3.85" fill="#000" />
+      <path
+        d="M3.4 8.5 10 12.9l6.6-4.4"
+        fill="none"
+        stroke="#000"
+        stroke-width="1.85"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </mask>
+  </defs>
+
+  <rect
+    x="1.6"
+    y="6.4"
+    width="16.8"
+    height="11.6"
+    rx="2.6"
+    fill="url(#pcGrad)"
+    mask="url(#pcKnockout)"
+  />
+
+  <circle cx="20.2" cy="4.2" r="3" fill="url(#pcGrad)" />
+</svg>

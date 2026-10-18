@@ -1,0 +1,1775 @@
+{
+  "components": {
+    "schemas": {
+      "ErrorDetail": {
+        "description": "The runtime error envelope omits details when none are available.",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "details": {
+            "additionalProperties": true,
+            "title": "Details",
+            "type": "object"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "FailureReasonCount": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason",
+          "count"
+        ],
+        "title": "FailureReasonCount",
+        "type": "object"
+      },
+      "Limits": {
+        "description": "额度快照，同时用于 /api/auth/me 与 /api/v1/me。",
+        "properties": {
+          "credits_per_dingtalk_bot": {
+            "default": 5,
+            "description": "Credits settled per successful dingtalk_bot target.",
+            "title": "Credits Per Dingtalk Bot",
+            "type": "integer"
+          },
+          "credits_per_email": {
+            "description": "Credits settled per successful email target.",
+            "title": "Credits Per Email",
+            "type": "integer"
+          },
+          "credits_per_feishu_bot": {
+            "default": 5,
+            "description": "Credits settled per successful feishu_bot target.",
+            "title": "Credits Per Feishu Bot",
+            "type": "integer"
+          },
+          "credits_per_ntfy": {
+            "description": "Credits settled per successful ntfy target.",
+            "title": "Credits Per Ntfy",
+            "type": "integer"
+          },
+          "credits_per_target": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Credits settled per successful target, keyed by channel type; 0 means the channel type is disabled by the administrator.",
+            "title": "Credits Per Target",
+            "type": "object"
+          },
+          "credits_per_wecom_bot": {
+            "default": 5,
+            "description": "Credits settled per successful wecom_bot target.",
+            "title": "Credits Per Wecom Bot",
+            "type": "integer"
+          },
+          "daily_attempt_limit": {
+            "description": "Send attempts allowed per day; 0 means unlimited.",
+            "title": "Daily Attempt Limit",
+            "type": "integer"
+          },
+          "daily_attempt_used": {
+            "description": "Send attempts counted today.",
+            "title": "Daily Attempt Used",
+            "type": "integer"
+          },
+          "daily_message_credits": {
+            "description": "Daily Message Credits allowance; 0 means unlimited.",
+            "title": "Daily Message Credits",
+            "type": "integer"
+          },
+          "daily_reset_at": {
+            "description": "Next daily reset time with timezone offset.",
+            "format": "date-time",
+            "title": "Daily Reset At",
+            "type": "string"
+          },
+          "is_admin": {
+            "description": "Whether the account is an administrator.",
+            "title": "Is Admin",
+            "type": "boolean"
+          },
+          "max_api_keys": {
+            "description": "Undeleted API key limit.",
+            "title": "Max Api Keys",
+            "type": "integer"
+          },
+          "max_dingtalk_bot_channels": {
+            "default": 3,
+            "description": "dingtalk_bot channel limit.",
+            "title": "Max Dingtalk Bot Channels",
+            "type": "integer"
+          },
+          "max_feishu_bot_channels": {
+            "default": 3,
+            "description": "feishu_bot channel limit.",
+            "title": "Max Feishu Bot Channels",
+            "type": "integer"
+          },
+          "max_message_size_bytes": {
+            "description": "Acceptance-time message size cap in bytes.",
+            "title": "Max Message Size Bytes",
+            "type": "integer"
+          },
+          "max_ntfy_channels": {
+            "description": "ntfy channel limit (all ntfy channels count).",
+            "title": "Max Ntfy Channels",
+            "type": "integer"
+          },
+          "max_verified_emails": {
+            "description": "Verified email channel limit (unverified rows excluded).",
+            "title": "Max Verified Emails",
+            "type": "integer"
+          },
+          "max_wecom_bot_channels": {
+            "default": 3,
+            "description": "wecom_bot channel limit.",
+            "title": "Max Wecom Bot Channels",
+            "type": "integer"
+          },
+          "message_credits_remaining": {
+            "description": "Credits still available (usage and reservations deducted); 0 when unlimited.",
+            "title": "Message Credits Remaining",
+            "type": "integer"
+          },
+          "message_credits_reserved": {
+            "description": "Credits reserved by in-flight or uncertain deliveries.",
+            "title": "Message Credits Reserved",
+            "type": "integer"
+          },
+          "message_credits_used": {
+            "description": "Credits settled for sends accepted today (late finishes still count toward the acceptance day).",
+            "title": "Message Credits Used",
+            "type": "integer"
+          },
+          "minute_attempt_limit": {
+            "description": "Send attempts allowed per minute; 0 means unlimited.",
+            "title": "Minute Attempt Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "daily_message_credits",
+          "message_credits_used",
+          "message_credits_reserved",
+          "message_credits_remaining",
+          "credits_per_email",
+          "credits_per_ntfy",
+          "credits_per_target",
+          "daily_reset_at",
+          "minute_attempt_limit",
+          "daily_attempt_limit",
+          "daily_attempt_used",
+          "max_verified_emails",
+          "max_ntfy_channels",
+          "max_api_keys",
+          "max_message_size_bytes",
+          "is_admin"
+        ],
+        "title": "Limits",
+        "type": "object"
+      },
+      "Page_SendLogDetail_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SendLogDetail"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "pages": {
+            "title": "Pages",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "pages"
+        ],
+        "title": "Page[SendLogDetail]",
+        "type": "object"
+      },
+      "PresetSendAccepted": {
+        "properties": {
+          "log_id": {
+            "title": "Log Id",
+            "type": "integer"
+          },
+          "preset_id": {
+            "title": "Preset Id",
+            "type": "integer"
+          },
+          "status": {
+            "const": "queued",
+            "default": "queued",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "preset_id",
+          "log_id"
+        ],
+        "title": "PresetSendAccepted",
+        "type": "object"
+      },
+      "PresetSendIn": {
+        "additionalProperties": false,
+        "description": "The account's single preset is resolved server-side; only content is supplied.",
+        "properties": {
+          "body": {
+            "maxLength": 1048576,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "body"
+        ],
+        "title": "PresetSendIn",
+        "type": "object"
+      },
+      "SendAccepted": {
+        "description": "受理响应：请求已入队，用 log_id 轮询状态。",
+        "properties": {
+          "log_id": {
+            "title": "Log Id",
+            "type": "integer"
+          },
+          "status": {
+            "default": "queued",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "log_id"
+        ],
+        "title": "SendAccepted",
+        "type": "object"
+      },
+      "SendLogDetail": {
+        "description": "发送日志详情，在列表/详情中返回。",
+        "properties": {
+          "api_key_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "API key that submitted the send, when known.",
+            "title": "Api Key Id"
+          },
+          "client_ip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Submitting client IP, when recorded.",
+            "title": "Client Ip"
+          },
+          "created_at": {
+            "description": "Acceptance time.",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery duration in milliseconds.",
+            "title": "Duration Ms"
+          },
+          "failure_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Lowercase reason code for failed/rejected logs.",
+            "title": "Failure Reason"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "message_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accepted message size in bytes.",
+            "title": "Message Size Bytes"
+          },
+          "recipient": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery destination snapshot.",
+            "title": "Recipient"
+          },
+          "smtp_response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Remote acceptance response; an HTTP status for ntfy.",
+            "title": "Smtp Response"
+          },
+          "status": {
+            "description": "queued / sending / success / failed / rejected.",
+            "title": "Status",
+            "type": "string"
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Notification title snapshot.",
+            "title": "Subject"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "created_at"
+        ],
+        "title": "SendLogDetail",
+        "type": "object"
+      },
+      "SendRequestIn": {
+        "additionalProperties": false,
+        "description": "POST /api/v1/send 请求体；未知字段一律拒绝。\n\n``to`` 是唯一的寻址字段，语义随 ``type`` 变化：email 是收件地址，ntfy 是\n渠道列表里的完整 canonical topic，群机器人是各自的 opaque 目标标识。\n目标必须是本账号已添加的渠道；省略 ``to`` 时投递该 ``type`` 匹配的已保存默认渠道。\n\n内容：``body`` 与 ``html`` 必须且只能给一个。email 两者都接受（``html`` 原样\n投递，不套服务模板）；ntfy 与群机器人只接受 ``body``。",
+        "properties": {
+          "body": {
+            "anyOf": [
+              {
+                "maxLength": 1048576,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Plaintext rendered in the service email template; required for ntfy.",
+            "title": "Body"
+          },
+          "html": {
+            "anyOf": [
+              {
+                "maxLength": 1048576,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Custom email HTML sent verbatim without the service template. Email only; supply exactly one of body or html.",
+            "title": "Html"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "maxLength": 254,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "One destination the account already added: a verified email address for email, the channel list's full canonical ntfy topic for ntfy, or the channel list's opaque wb_ / fs_ / dt_ bot target id. Omit to deliver the saved default channels matching type.",
+            "title": "To"
+          },
+          "type": {
+            "description": "Sending method.",
+            "enum": [
+              "email",
+              "ntfy",
+              "wecom_bot",
+              "feishu_bot",
+              "dingtalk_bot"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "type"
+        ],
+        "title": "SendRequestIn",
+        "type": "object"
+      },
+      "SendStatusOut": {
+        "description": "发送状态查询结果。status 为终态时其余字段才有意义。",
+        "properties": {
+          "created_at": {
+            "description": "Acceptance time.",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery duration in milliseconds.",
+            "title": "Duration Ms"
+          },
+          "failure_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Lowercase reason code for failed/rejected logs.",
+            "title": "Failure Reason"
+          },
+          "log_id": {
+            "title": "Log Id",
+            "type": "integer"
+          },
+          "message_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery identifier, not an idempotency key.",
+            "title": "Message Id"
+          },
+          "smtp_response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Remote acceptance response; an HTTP status for ntfy deliveries.",
+            "title": "Smtp Response"
+          },
+          "status": {
+            "description": "queued / sending (in flight) or success / failed / rejected (terminal).",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "log_id",
+          "status",
+          "created_at"
+        ],
+        "title": "SendStatusOut",
+        "type": "object"
+      },
+      "SeriesPoint": {
+        "properties": {
+          "bucket_start": {
+            "title": "Bucket Start",
+            "type": "string"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "integer"
+          },
+          "rejected": {
+            "title": "Rejected",
+            "type": "integer"
+          },
+          "success": {
+            "title": "Success",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "bucket_start",
+          "success",
+          "failed",
+          "rejected"
+        ],
+        "title": "SeriesPoint",
+        "type": "object"
+      },
+      "TodayStats": {
+        "properties": {
+          "attempted": {
+            "title": "Attempted",
+            "type": "integer"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "integer"
+          },
+          "rejected": {
+            "title": "Rejected",
+            "type": "integer"
+          },
+          "reset_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reset At"
+          },
+          "success": {
+            "title": "Success",
+            "type": "integer"
+          },
+          "success_rate": {
+            "title": "Success Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "attempted",
+          "success",
+          "failed",
+          "rejected",
+          "success_rate"
+        ],
+        "title": "TodayStats",
+        "type": "object"
+      },
+      "Totals": {
+        "properties": {
+          "attempted": {
+            "title": "Attempted",
+            "type": "integer"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "integer"
+          },
+          "rejected": {
+            "title": "Rejected",
+            "type": "integer"
+          },
+          "success": {
+            "title": "Success",
+            "type": "integer"
+          },
+          "success_rate": {
+            "title": "Success Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "attempted",
+          "success",
+          "failed",
+          "rejected",
+          "success_rate"
+        ],
+        "title": "Totals",
+        "type": "object"
+      },
+      "UserOverview": {
+        "properties": {
+          "bucket": {
+            "title": "Bucket",
+            "type": "string"
+          },
+          "failure_reasons": {
+            "items": {
+              "$ref": "#/components/schemas/FailureReasonCount"
+            },
+            "title": "Failure Reasons",
+            "type": "array"
+          },
+          "range": {
+            "title": "Range",
+            "type": "string"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/SeriesPoint"
+            },
+            "title": "Series",
+            "type": "array"
+          },
+          "today": {
+            "$ref": "#/components/schemas/TodayStats"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/Totals"
+          }
+        },
+        "required": [
+          "range",
+          "bucket",
+          "totals",
+          "series",
+          "failure_reasons",
+          "today"
+        ],
+        "title": "UserOverview",
+        "type": "object"
+      },
+      "ValidationDetails": {
+        "properties": {
+          "errors": {
+            "description": "Validation issues with type, loc, msg, and optional input, ctx, or url.",
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Errors",
+            "type": "array"
+          }
+        },
+        "required": [
+          "errors"
+        ],
+        "title": "ValidationDetails",
+        "type": "object"
+      },
+      "ValidationErrorDetail": {
+        "properties": {
+          "code": {
+            "const": "VALIDATION_ERROR",
+            "title": "Code",
+            "type": "string"
+          },
+          "details": {
+            "$ref": "#/components/schemas/ValidationDetails"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "details"
+        ],
+        "title": "ValidationErrorDetail",
+        "type": "object"
+      },
+      "ValidationErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ValidationErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ValidationErrorResponse",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "bearerFormat": "pck_...",
+        "description": "在控制台创建的 API Key",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "Hosted email and ntfy notifications with a simple API-key flow: add a channel in the console, create a key, then send. Delivery is asynchronous: send requests return 201 with a log_id before background delivery; poll the status endpoint for the real result. A successful email target settles 10 Message Credits and an ntfy target 5; acceptance reserves Credits and known failures release them. Errors use a JSON envelope with a stable code, message and optional details. Guides and the public API reference are at /docs/.",
+    "title": "Portcloud Notify",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/emails": {
+      "get": {
+        "operationId": "emails_api_v1_emails_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response Emails Api V1 Emails Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request (VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Account disabled (USER_DISABLED)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IP or authenticated read limit exceeded (IP_RATE_LIMITED / RATE_LIMITED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A required dependency is unavailable (DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Verified recipients",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/logs": {
+      "get": {
+        "operationId": "logs_api_v1_logs_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(queued|sending|success|failed|rejected)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "reason",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reason"
+            }
+          },
+          {
+            "in": "query",
+            "name": "api_key_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api Key Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "default": "desc",
+              "pattern": "^(asc|desc)$",
+              "title": "Order",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_SendLogDetail_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request (VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Account disabled (USER_DISABLED)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IP or authenticated read limit exceeded (IP_RATE_LIMITED / RATE_LIMITED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A required dependency is unavailable (DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Query send logs",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "me_api_v1_me_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Limits"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request (VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Account disabled (USER_DISABLED)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IP or authenticated read limit exceeded (IP_RATE_LIMITED / RATE_LIMITED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A required dependency is unavailable (DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Account and Message Credits",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/send": {
+      "post": {
+        "description": "Queue a notification without waiting for delivery.\n\n`type` selects email or ntfy. `to` names one destination the account already\nadded — a verified email address for `type=\"email\"`, or the channel list's\nfull canonical ntfy topic for `type=\"ntfy\"`. Omit `to` to deliver only the\naccount's saved default channels matching `type` (no match: 400\nNO_DEFAULT_CHANNEL). `title` is required. Email accepts exactly one of\nplaintext `body` (rendered in the service template) or custom `html` (sent\nverbatim without a service wrapper). ntfy requires `body` and rejects `html`.\n\nReturns 201 with `{log_id, status: \"queued\"}` for the first target; each\ntarget has its own log, and poll `GET /api/v1/send/{log_id}` for the result.",
+        "operationId": "send_api_v1_send_post",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendRequestIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unverified recipient/channel, missing defaults, or invalid message (RECIPIENT_NOT_VERIFIED / CHANNEL_UNVERIFIED / NO_DEFAULT_CHANNEL / INVALID_RECIPIENT_FORMAT / INVALID_PAYLOAD / VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Star eligibility refusal or disabled account (STAR_REQUIRED / USER_DISABLED)."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "An ntfy `to` that is not one of the account's channels, or a target owned by another account (NOT_FOUND)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate, Message Credits, or daily send-attempt limit exceeded (IP_RATE_LIMITED / RATE_LIMITED / MESSAGE_CREDITS_EXHAUSTED / DAILY_ATTEMPT_LIMIT_REACHED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Global Message Credits exhausted or dependency unavailable (GLOBAL_MESSAGE_CREDITS_EXHAUSTED / DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Queue notifications for delivery",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/send-preset": {
+      "post": {
+        "description": "Send runtime content down the account's preset chain.\n\nThe account's single preset is resolved server-side, so the body carries\nonly `title` and plaintext `body`. Nodes are tried in order; a known\nfailure advances to the next node, and success or an uncertain result stops\nthe chain. Returns one log_id for the whole chain; poll\n`GET /api/v1/send/{log_id}` for the terminal result.",
+        "operationId": "send_preset_api_v1_send_preset_post",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresetSendIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetSendAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No preset configured, invalid preset configuration, or unverified channel (NO_PRESET / CHANNEL_TARGET_INVALID / CHANNEL_UNVERIFIED / VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Star eligibility refusal or disabled account (STAR_REQUIRED / USER_DISABLED)."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A channel referenced by the preset is missing or owned by another account (NOT_FOUND)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate, Message Credits, or daily send-attempt limit exceeded.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Global Message Credits exhausted, queue full, or dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Queue the account's preset chain",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/send/{log_id}": {
+      "get": {
+        "description": "Query one delivery by the log_id returned at acceptance; terminal states are success / failed / rejected.",
+        "operationId": "send_status_of_api_v1_send__log_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "log_id",
+            "required": true,
+            "schema": {
+              "title": "Log Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendStatusOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request (VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Account disabled (USER_DISABLED)."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown log_id or a log owned by another account (NOT_FOUND)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IP or authenticated read limit exceeded (IP_RATE_LIMITED / RATE_LIMITED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A required dependency is unavailable (DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Query delivery status",
+        "tags": [
+          "Send API"
+        ]
+      }
+    },
+    "/api/v1/stats/overview": {
+      "get": {
+        "operationId": "stats_overview_api_v1_stats_overview_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "range",
+            "required": false,
+            "schema": {
+              "default": "7d",
+              "pattern": "^(7d|14d|30d|60d|90d)$",
+              "title": "Range",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOverview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid request (VALIDATION_ERROR)."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "API key required, invalid, or expired (UNAUTHENTICATED / INVALID_API_KEY / API_KEY_EXPIRED)."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Account disabled (USER_DISABLED)."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Payload too large (PAYLOAD_TOO_LARGE)."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed (VALIDATION_ERROR)."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IP or authenticated read limit exceeded (IP_RATE_LIMITED / RATE_LIMITED).",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying, when provided.",
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unexpected internal error (VALIDATION_ERROR)."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "A required dependency is unavailable (DEPENDENCY_UNAVAILABLE)."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Account stats",
+        "tags": [
+          "Send API"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
+}

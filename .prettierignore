@@ -1,0 +1,9 @@
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+api/
+en/api/
+public/openapi.json
+public/favicon.svg
+pnpm-lock.yaml
+.vitepress/openapi.json
