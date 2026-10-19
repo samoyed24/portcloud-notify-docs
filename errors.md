@@ -24,14 +24,14 @@
 | 400  | `INVALID_RECIPIENT_FORMAT`         | `to` 的邮箱格式无效（公共 API 格式校验未通过时返回 `422 VALIDATION_ERROR`） |
 | 400  | `NO_DEFAULT_CHANNEL`               | 省略 `to` 且无匹配默认渠道                                                  |
 | 400  | `NO_PRESET`                        | 未配置预设                                                                  |
-| 400  | `CHANNEL_UNVERIFIED`               | 预设中的邮箱渠道未验证                                                      |
+| 400  | `CHANNEL_UNVERIFIED`               | 发送目标、默认渠道或预设中的邮箱/群机器人尚未验证                           |
 | 400  | `CHANNEL_TYPE_DISABLED`            | 渠道类型已被管理员停用（单价为 0）                                          |
 | 401  | `UNAUTHENTICATED`                  | 未提供 API Key                                                              |
 | 401  | `INVALID_API_KEY`                  | Key 无效或已撤销                                                            |
 | 401  | `API_KEY_EXPIRED`                  | Key 已过期                                                                  |
 | 403  | `STAR_REQUIRED`                    | 未解锁或取消 Star                                                           |
 | 403  | `USER_DISABLED`                    | 账号已禁用                                                                  |
-| 404  | `NOT_FOUND`                        | ntfy topic 不属于本账号或 `log_id` 不存在                                   |
+| 404  | `NOT_FOUND`                        | ntfy topic、群机器人目标不属于本账号，或渠道、`log_id` 不存在               |
 | 413  | `PAYLOAD_TOO_LARGE`                | 请求体或报文超限                                                            |
 | 422  | `VALIDATION_ERROR`                 | 字段、类型或约束错误                                                        |
 | 429  | `RATE_LIMITED`                     | 发送或读取限流                                                              |
@@ -45,29 +45,32 @@
 
 ## 控制台错误
 
-| HTTP | `error.code`               | 场景                                     |
-| ---- | -------------------------- | ---------------------------------------- |
-| 409  | `EMAIL_ALREADY_EXISTS`     | 邮箱已存在                               |
-| 409  | `EMAIL_LIMIT_REACHED`      | 邮箱渠道达上限                           |
-| 409  | `CHANNEL_ALREADY_EXISTS`   | ntfy topic 已存在                        |
-| 409  | `API_KEY_LIMIT_REACHED`    | Key 达上限                               |
-| 409  | `PRESET_EXISTS`            | 已有预设                                 |
-| 409  | `GITHUB_NOT_BOUND`         | 账号未绑定 GitHub（Star 检测前需先绑定） |
-| 423  | `CODE_LOCKED`              | 验证码多次输错                           |
-| 429  | `VERIFY_CODE_RATE_LIMITED` | 验证码重发过快                           |
+| HTTP | `error.code`                | 场景                                       |
+| ---- | --------------------------- | ------------------------------------------ |
+| 400  | `VERIFICATION_CODE_INVALID` | 邮箱或群机器人验证码错误、过期或已失效     |
+| 400  | `CHANNEL_TARGET_INVALID`    | ntfy topic 或群机器人 Webhook/凭据格式无效 |
+| 409  | `EMAIL_ALREADY_EXISTS`      | 邮箱已添加（含待验证）                     |
+| 409  | `EMAIL_LIMIT_REACHED`       | 当前类型渠道达上限                         |
+| 409  | `CHANNEL_ALREADY_EXISTS`    | ntfy topic 或群机器人已添加（含待验证）    |
+| 409  | `API_KEY_LIMIT_REACHED`     | Key 达上限                                 |
+| 409  | `PRESET_EXISTS`             | 已有预设                                   |
+| 409  | `GITHUB_NOT_BOUND`          | 账号未绑定 GitHub（Star 检测前需先绑定）   |
+| 423  | `CODE_LOCKED`               | 验证码多次输错                             |
+| 429  | `VERIFY_CODE_RATE_LIMITED`  | 验证码重发过快或当日发码额度已用完         |
 
 ## `failure_reason`
 
 日志中的失败原因是小写字符串：
 
-| 原因                                                          | 含义                          |
-| ------------------------------------------------------------- | ----------------------------- |
-| `invalid_recipient_format`, `recipient_not_verified`          | 地址校验失败                  |
-| `message_credits_exhausted`, `daily_attempt_limit_reached`    | Credits 或尝试限制            |
-| `channel_type_disabled`                                       | 渠道类型已被管理员停用        |
-| `smtp_timeout`, `smtp_connection_error`, `smtp_unknown_error` | SMTP 超时或错误，结果可能未知 |
-| `interrupted`                                                 | 处理中断，不能证明未发出      |
-| `channel_unreachable`                                         | ntfy 网络/超时失败            |
-| `channel_delivery_error`                                      | ntfy 服务拒绝                 |
+| 原因                                                          | 含义                                       |
+| ------------------------------------------------------------- | ------------------------------------------ |
+| `invalid_recipient_format`                                    | 邮箱地址格式无效                           |
+| `recipient_not_verified`                                      | 邮箱或群机器人尚未验证（含受理后验证失效） |
+| `message_credits_exhausted`, `daily_attempt_limit_reached`    | Credits 或尝试限制                         |
+| `channel_type_disabled`                                       | 渠道类型已被管理员停用                     |
+| `smtp_timeout`, `smtp_connection_error`, `smtp_unknown_error` | SMTP 超时或错误，结果可能未知              |
+| `interrupted`                                                 | 处理中断，不能证明未发出                   |
+| `channel_unreachable`                                         | ntfy 或群机器人网络/超时失败               |
+| `channel_delivery_error`                                      | ntfy 或群机器人服务拒绝、目标或凭据失效    |
 
 相关：[发送状态](./guides/status.md) · [Message Credits](./guides/limits.md)

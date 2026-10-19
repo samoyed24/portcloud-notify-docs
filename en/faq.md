@@ -8,9 +8,9 @@ New accounts are Free. Star [portcloud-labs/portcloud](https://github.com/portcl
 
 No. Email sends only to addresses verified by your account. To reach multiple targets, call the send API per target (omitting `to` delivers to all default channels of that type); [sending presets](./guides/presets.md) are a fallback chain — the first successful node stops the chain, so remaining nodes are not sent to.
 
-## Why is an address still unverified after receiving a code?
+## Why is a channel still unverified after receiving a code?
 
-Requesting a code and completing verification are separate steps. Enter the latest 6-digit code and confirm; the address must appear in the verified list. Codes last 15 minutes.
+Receiving a code does not complete verification. Enter the latest code and confirm until the channel shows verified. Use the expiry shown in the email, group message, and console; see [Notification channels](./guides/recipients.md).
 
 ## Can I view a key only once?
 
@@ -20,9 +20,9 @@ No. Creation shows the full value, and the console's "View" action retrieves it 
 
 No. 201 means accepted. Check the `status` field in the query response; `success` means the service accepted it. See [Delivery status](./guides/status.md).
 
-## Why is a `success` email not in the inbox?
+## Why haven't I received a notification marked `success`?
 
-`success` means the SMTP, ntfy, or WeCom service accepted it — not that it reached the inbox, client, or group. Check spam, filters, the ntfy subscription, or whether the WeCom group is muted for all members. No read receipts.
+`success` means SMTP, ntfy, WeCom, Feishu, or DingTalk accepted the message, not that it reached an inbox, client, or group. Check spam, filters, the ntfy subscription, and group settings. No read receipts are available.
 
 ## Can I resend after a timeout?
 
@@ -34,7 +34,7 @@ Email can: with `type="email"`, the `html` field sends your HTML as the whole me
 
 ## How do I set up a group bot?
 
-Create a custom bot in the group settings for WeCom, Feishu, or DingTalk and copy its Webhook URL; for Feishu and DingTalk, also enter the signing secret if signing is enabled. Enter the code received in the group to verify the channel before sending, using presets, or testing. Failed code delivery can be retried from the pending row. Send to the `wb_...` / `fs_...` / `dt_...` target id shown in the list. WeCom allows 20 messages per minute and 2048 bytes per text message; Feishu allows a 20 KB request body and 100 requests per minute; DingTalk allows 20 messages per minute. See [Notification channels](./guides/recipients.md) for verification limits and leaked-Webhook handling.
+Create a custom bot in your WeCom, Feishu, or DingTalk group and add its Webhook in the console. Feishu and DingTalk also need the signing secret when signing is enabled. Adding a channel automatically attempts the first code delivery; confirm the received code in the console. See [Notification channels](./guides/recipients.md) for setup, per-type limits, and failed code delivery.
 
 ## Why am I refused while I still have Credits?
 
